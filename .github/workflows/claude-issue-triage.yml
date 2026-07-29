@@ -1,0 +1,57 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+concurrency:
+  group: claude-issue-triage-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Issue Triage
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: '--allowed-tools "Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh label create:*),Bash(gh label list:*)"'
+          prompt: |
+            Analiza el issue #${{ github.event.issue.number }} de este repo de Tetris
+            (titulo: "${{ github.event.issue.title }}").
+
+            1. Lee CLAUDE.md para entender la arquitectura (board model, piezas,
+               rotacion, colision, game loop, locking/clearing, scoring, rendering,
+               input) y lee game.js/index.html/style.css segun haga falta para
+               ubicar la funcion o seccion relacionada al problema descrito.
+
+            2. Asigna labels con `gh issue edit ${{ github.event.issue.number }} --add-label "..."`:
+               - Un label de tipo: bug, enhancement, question, duplicate, invalid,
+                 documentation, help wanted o good first issue (usa los que ya
+                 existen en el repo).
+               - Uno o mas labels de area segun el subsistema afectado: rendering,
+                 input, collision, game-loop, scoring, state, rotation. Si el label
+                 de area no existe todavia, crealo primero con
+                 `gh label create <nombre> --color <hex> --description "..."`.
+
+            3. Postea UN comentario nuevo (`gh issue comment ${{ github.event.issue.number }} --body "..."`)
+               con diagnostico tecnico en espanol, formato:
+               - **Diagnostico**: causa raiz probable en 1-2 frases.
+               - **Codigo afectado**: archivo(s) y funcion(es)/seccion(es) especifica(s)
+                 (ej. `tryRotate()` en game.js, `collide()`, `clearLines()`, etc).
+               - **Enfoque sugerido**: idea de alto nivel para el fix, sin escribir
+                 el codigo todavia (esto se implementa despues, en otra tarea).
+
+            No modifiques el titulo ni el body del issue. No escribas codigo ni
+            hagas commits. Si el issue no da suficiente info para diagnosticar,
+            dilo explicitamente en el comentario y pide los datos que faltan.
