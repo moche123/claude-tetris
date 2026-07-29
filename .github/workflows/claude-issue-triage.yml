@@ -45,7 +45,8 @@ jobs:
                  `gh label create <name> --color <hex> --description "..."`.
 
             3. Post ONE new comment (`gh issue comment ${{ github.event.issue.number }} --body "..."`)
-               with a technical diagnosis in English, formatted as:
+               with a technical diagnosis in English. Body must be valid GitHub-flavored
+               Markdown (headers/bold/code-fences render correctly on GitHub), formatted as:
                - **Diagnosis**: likely root cause in 1-2 sentences.
                - **Affected code**: specific file(s) and function(s)/section(s)
                  (e.g. `tryRotate()` in game.js, `collide()`, `clearLines()`, etc).
