@@ -204,8 +204,19 @@ kbd {
   display: none;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .overlay-box {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.overlay-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -219,13 +230,20 @@ kbd {
   color: var(--danger);
 }
 
+.pause-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
 #overlay-score {
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
   color: var(--accent);
 }
 
-#restart-btn {
+.overlay-btn {
   margin-top: 8px;
   background: var(--accent);
   color: var(--accent-contrast);
@@ -239,7 +257,38 @@ kbd {
   transition: background 0.15s;
 }
 
-#restart-btn:hover {
+.overlay-btn:hover {
   background: var(--accent);
   opacity: 0.85;
+}
+
+/* ---- Pause menu ---- */
+#pause-controls-wrap {
+  margin-top: 4px;
+}
+
+.pause-level-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.pause-level-select label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--label);
+  font-weight: 600;
+}
+
+.pause-level-select select {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
 }

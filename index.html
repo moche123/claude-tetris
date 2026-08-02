@@ -54,9 +54,35 @@
 
     <div id="overlay" class="overlay hidden">
       <div class="overlay-box">
-        <p id="overlay-title">GAME OVER</p>
-        <p id="overlay-score"></p>
-        <button id="restart-btn">Reiniciar</button>
+        <div id="overlay-gameover-content" class="overlay-content">
+          <p id="overlay-title">GAME OVER</p>
+          <p id="overlay-score"></p>
+          <button id="restart-btn" class="overlay-btn">Reiniciar</button>
+        </div>
+        <div id="overlay-pause-content" class="overlay-content hidden">
+          <p class="pause-title">PAUSA</p>
+          <button id="resume-btn" class="overlay-btn">Reanudar</button>
+          <button id="pause-restart-btn" class="overlay-btn">Reiniciar</button>
+          <button id="toggle-controls-btn" class="overlay-btn">Ver controles</button>
+          <div id="pause-controls-wrap" class="controls hidden">
+            <ul id="pause-controls-list"></ul>
+          </div>
+          <div class="pause-level-select">
+            <label for="start-level-select">Nivel inicial</label>
+            <select id="start-level-select">
+              <option value="1" selected>1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
   </div>
